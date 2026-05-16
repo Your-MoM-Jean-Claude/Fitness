@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3měsíční Fitness Plán</title>
+<style>
+:root{--p:#b5005b;--pl:#fce4ec;--bg:#f5f5f7;--card:#fff;--text:#1a1a1a;--muted:#777;--border:#e8e8e8;--green:#2e7d32;--red:#c62828;}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);max-width:500px;margin:0 auto;min-height:100vh;padding-bottom:48px;}
+
+header{background:linear-gradient(135deg,#b5005b,#d81b60);color:#fff;padding:20px 16px 16px;}
+header h1{font-size:1.25rem;font-weight:800;letter-spacing:-.02em;}
+header p{font-size:0.78rem;opacity:.88;margin-top:4px;}
+
+nav{display:flex;background:#fff;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50;box-shadow:0 1px 6px rgba(0,0,0,.09);}
+nav button{flex:1;padding:13px 4px;border:none;background:none;font-size:.76rem;color:var(--muted);cursor:pointer;font-weight:700;border-bottom:3px solid transparent;}
+nav button.active{color:var(--p);border-bottom-color:var(--p);}
+
+.tab{display:none;padding:14px;}
+.tab.active{display:block;}
+
+/* block selector */
+.blk-tabs{display:flex;gap:8px;margin-bottom:10px;}
+.blk-tab{flex:1;padding:10px 6px;border:2px solid var(--border);background:#fff;border-radius:12px;cursor:pointer;font-size:.71rem;font-weight:700;color:var(--muted);text-align:center;line-height:1.4;transition:all .15s;}
+.blk-tab.active{border-color:var(--p);background:var(--p);color:#fff;}
+.blk-tab small{display:block;font-weight:500;margin-top:1px;}
+
+/* block info banner */
+.blk-banner{background:#fff;border-radius:12px;padding:12px 14px;margin-bottom:12px;box-shadow:0 1px 5px rgba(0,0,0,.07);border-left:4px solid var(--p);}
+.blk-banner h3{font-size:.88rem;font-weight:800;margin-bottom:3px;}
+.blk-banner p{font-size:.76rem;color:var(--muted);line-height:1.5;}
+.blk-badge{display:inline-block;background:var(--pl);color:var(--p);padding:2px 8px;border-radius:20px;font-size:.69rem;font-weight:700;margin-bottom:6px;}
+
+/* day selector */
+.day-tabs{display:flex;gap:7px;margin-bottom:12px;}
+.day-tab{flex:1;padding:10px 5px;border:2px solid var(--border);background:#fff;border-radius:12px;cursor:pointer;font-size:.69rem;font-weight:700;color:var(--muted);text-align:center;line-height:1.4;transition:all .15s;}
+.day-tab .ic{font-size:1.3rem;display:block;margin-bottom:2px;}
+.day-tab.active{border-color:var(--p);background:var(--p);color:#fff;}
+
+.section-lbl{font-size:.68rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin:4px 0 9px;}
+
+/* exercise card */
+.card{background:#fff;border-radius:14px;margin-bottom:9px;box-shadow:0 1px 5px rgba(0,0,0,.08);overflow:hidden;}
+.card-head{display:flex;align-items:center;padding:13px;gap:11px;cursor:pointer;user-select:none;}
+.card-ic{width:42px;height:42px;border-radius:10px;background:var(--pl);display:flex;align-items:center;justify-content:center;font-size:1.25rem;flex-shrink:0;}
+.card-info{flex:1;min-width:0;}
+.card-name{font-weight:700;font-size:.9rem;}
+.card-meta{font-size:.74rem;color:var(--muted);margin-top:2px;}
+.card-arr{color:var(--muted);font-size:.82rem;transition:transform .2s;padding:6px;}
+.card.open .card-arr{transform:rotate(180deg);}
+.card-body{display:none;padding:0 13px 14px;}
+.card.open .card-body{display:block;}
+.div{height:1px;background:var(--border);margin-bottom:11px;}
+
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:9px;}
+.tag{padding:3px 9px;background:#f1f1f1;border-radius:20px;font-size:.69rem;color:#555;font-weight:600;}
+.tag.prog{background:var(--pl);color:var(--p);}
+
+.tip{font-size:.8rem;color:#444;line-height:1.6;}
+.tip strong{color:var(--text);}
+
+.yt-btn{display:inline-flex;align-items:center;gap:7px;background:#FF0000;color:#fff;text-decoration:none;padding:9px 14px;border-radius:9px;font-size:.78rem;font-weight:700;margin-top:12px;}
+
+/* forms / weight / diary */
+.form-card{background:#fff;border-radius:14px;padding:16px;box-shadow:0 1px 5px rgba(0,0,0,.08);margin-bottom:12px;}
+.form-card h3{font-size:.92rem;font-weight:700;margin-bottom:12px;}
+.row{display:flex;gap:9px;align-items:flex-end;}
+.col{flex:1;}
+label{display:block;font-size:.72rem;color:var(--muted);font-weight:600;margin-bottom:4px;}
+input,select,textarea{width:100%;padding:10px 11px;border:2px solid var(--border);border-radius:9px;font-size:.9rem;font-family:inherit;outline:none;background:#fff;color:var(--text);}
+input:focus,select:focus,textarea:focus{border-color:var(--p);}
+textarea{resize:vertical;min-height:68px;}
+select{margin-bottom:11px;}
+.btn{background:var(--p);color:#fff;border:none;padding:10px 16px;border-radius:9px;font-size:.86rem;font-weight:700;cursor:pointer;white-space:nowrap;}
+.btn-full{width:100%;margin-top:10px;}
+.btn-ghost{background:none;border:none;color:var(--muted);cursor:pointer;font-size:1rem;padding:5px;}
+
+.stats{display:flex;gap:9px;margin-bottom:12px;}
+.stat{flex:1;background:#fff;border-radius:12px;padding:13px;text-align:center;box-shadow:0 1px 5px rgba(0,0,0,.08);}
+.stat-val{font-size:1.4rem;font-weight:800;color:var(--p);}
+.stat-lbl{font-size:.68rem;color:var(--muted);margin-top:3px;font-weight:600;}
+
+.chart-card{background:#fff;border-radius:14px;padding:16px;box-shadow:0 1px 5px rgba(0,0,0,.08);margin-bottom:12px;}
+.chart-card h3{font-size:.88rem;font-weight:700;margin-bottom:10px;}
+svg.spark{width:100%;height:76px;display:block;}
+
+.list-card{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 1px 5px rgba(0,0,0,.08);}
+.list-head{padding:13px 15px;font-size:.88rem;font-weight:700;border-bottom:1px solid var(--border);}
+.list-item{display:flex;align-items:center;padding:11px 15px;border-bottom:1px solid var(--border);gap:11px;}
+.list-item:last-child{border-bottom:none;}
+.wval{font-size:1.1rem;font-weight:800;color:var(--p);min-width:58px;}
+.winfo{flex:1;}
+.wdate{font-size:.76rem;color:var(--muted);}
+.diff{font-size:.75rem;font-weight:700;margin-top:1px;}
+.diff.neg{color:var(--green);}
+.diff.pos{color:var(--red);}
+
+.diary-item{background:#fff;border-radius:14px;padding:13px 15px;margin-bottom:9px;box-shadow:0 1px 5px rgba(0,0,0,.08);}
+.diary-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:5px;}
+.diary-day{font-weight:700;font-size:.88rem;}
+.diary-date{font-size:.74rem;color:var(--muted);margin-top:1px;}
+.diary-note{font-size:.8rem;color:#444;line-height:1.55;margin-top:7px;}
+.badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:.67rem;font-weight:800;margin-bottom:4px;}
+.ba{background:#fce4ec;color:#b5005b;}.bb{background:#e3f2fd;color:#0d47a1;}.bc{background:#f3e5f5;color:#6a1b9a;}
+
+.empty{text-align:center;padding:36px 20px;color:var(--muted);}
+.empty .big{font-size:2.6rem;margin-bottom:9px;}
+.empty p{font-size:.82rem;line-height:1.6;}
+
+/* overview */
+.overview{background:#fff;border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:0 1px 5px rgba(0,0,0,.08);}
+.overview h3{font-size:.88rem;font-weight:700;margin-bottom:10px;}
+.ov-row{display:flex;align-items:center;gap:10px;margin-bottom:7px;}
+.ov-num{width:26px;height:26px;border-radius:50%;background:var(--pl);color:var(--p);font-size:.75rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ov-text{font-size:.78rem;line-height:1.4;}
+.ov-text strong{display:block;font-size:.8rem;}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>3měsíční Fitness Plán</h1>
+  <p>12 týdnů · 3× týdně · Vlastní tělo + Činky + Hrazda</p>
+</header>
+
+<nav>
+  <button class="active" onclick="goTab('plan')">📋 Plán</button>
+  <button onclick="goTab('weight')">⚖️ Váha</button>
+  <button onclick="goTab('diary')">📓 Deník</button>
+</nav>
+
+<!-- ══════════ PLAN ══════════ -->
+<div id="plan" class="tab active">
+
+  <div class="overview">
+    <h3>Přehled 12 týdnů</h3>
+    <div class="ov-row"><div class="ov-num">1</div><div class="ov-text"><strong>Blok 1 – Základ (Týdny 1–4)</strong>Naučit se techniku, 3 série, lehčí váhy, odpočinek 90 s</div></div>
+    <div class="ov-row"><div class="ov-num">2</div><div class="ov-text"><strong>Blok 2 – Budování (Týdny 5–8)</strong>Více sérií, těžší váhy, nové variace, odpočinek 75 s</div></div>
+    <div class="ov-row"><div class="ov-num">3</div><div class="ov-text"><strong>Blok 3 – Intenzita (Týdny 9–12)</strong>Maximum závaží, pokročilé variace, finišery, odpočinek 60–75 s</div></div>
+  </div>
+
+  <div class="blk-tabs">
+    <div class="blk-tab active" onclick="goBlock(0)">Blok 1<small>Týdny 1–4</small></div>
+    <div class="blk-tab" onclick="goBlock(1)">Blok 2<small>Týdny 5–8</small></div>
+    <div class="blk-tab" onclick="goBlock(2)">Blok 3<small>Týdny 9–12</small></div>
+  </div>
+
+  <div id="blk-banner" class="blk-banner"></div>
+
+  <div class="day-tabs">
+    <div class="day-tab active" onclick="goDay(0)"><span class="ic">🍑</span>Den A<br>Hýždě</div>
+    <div class="day-tab" onclick="goDay(1)"><span class="ic">💪</span>Den B<br>Ramena</div>
+    <div class="day-tab" onclick="goDay(2)"><span class="ic">🔥</span>Den C<br>Kor</div>
+  </div>
+
+  <div id="exercises"></div>
+</div>
+
+<!-- ══════════ WEIGHT ══════════ -->
+<div id="weight" class="tab">
+  <div class="form-card">
+    <h3>Zaznamenat váhu</h3>
+    <div class="row">
+      <div class="col"><label>Datum</label><input type="date" id="w-date"></div>
+      <div class="col"><label>Váha (kg)</label><input type="number" id="w-val" placeholder="65.5" step="0.1" min="30" max="250"></div>
+      <button class="btn" onclick="saveWeight()">+</button>
+    </div>
+  </div>
+  <div id="w-stats" style="display:none" class="stats">
+    <div class="stat"><div class="stat-val" id="w-cur">–</div><div class="stat-lbl">Aktuální kg</div></div>
+    <div class="stat"><div class="stat-val" id="w-chg" style="font-size:1rem">–</div><div class="stat-lbl">Celková změna</div></div>
+    <div class="stat"><div class="stat-val" id="w-cnt">0</div><div class="stat-lbl">Záznamů</div></div>
+  </div>
+  <div id="w-chart" style="display:none" class="chart-card">
+    <h3>Vývoj váhy</h3>
+    <svg class="spark" id="spark" viewBox="0 0 300 76" preserveAspectRatio="none"></svg>
+  </div>
+  <div class="list-card">
+    <div class="list-head">Historie</div>
+    <div id="w-list"></div>
+  </div>
+</div>
+
+<!-- ══════════ DIARY ══════════ -->
+<div id="diary" class="tab">
+  <div class="form-card">
+    <h3>Zapsat trénink</h3>
+    <label>Datum</label>
+    <input type="date" id="d-date" style="margin-bottom:11px">
+    <label>Blok &amp; Den</label>
+    <select id="d-day">
+      <option value="1A">Blok 1 – Den A (Hýždě &amp; Nohy)</option>
+      <option value="1B">Blok 1 – Den B (Ramena &amp; Paže)</option>
+      <option value="1C">Blok 1 – Den C (Kor &amp; Celé tělo)</option>
+      <option value="2A">Blok 2 – Den A (Hýždě &amp; Nohy)</option>
+      <option value="2B">Blok 2 – Den B (Ramena &amp; Paže)</option>
+      <option value="2C">Blok 2 – Den C (Kor &amp; Celé tělo)</option>
+      <option value="3A">Blok 3 – Den A (Hýždě &amp; Nohy)</option>
+      <option value="3B">Blok 3 – Den B (Ramena &amp; Paže)</option>
+      <option value="3C">Blok 3 – Den C (Kor &amp; Celé tělo)</option>
+    </select>
+    <label>Poznámky (váhy, pocity, PR…)</label>
+    <textarea id="d-note" placeholder="Hip thrust 3×12 × 30 kg ✓&#10;Cítila jsem se skvěle!"></textarea>
+    <button class="btn btn-full" onclick="saveDiary()">Uložit trénink</button>
+  </div>
+  <div id="d-list"></div>
+</div>
+
+<script>
+// ─── PLAN DATA ───────────────────────────────────────────
+const PLAN = [
+// ══════════════════════════════════════════════════════════
+// BLOK 1 – ZÁKLAD (Týdny 1–4)
+// ══════════════════════════════════════════════════════════
+{
+  name:"Blok 1 – Základ",weeks:"Týdny 1–4",
+  desc:"Cíl: naučit se techniku a připravit tělo. Váhy lehké (60–65 %). Odpočinek 90 s.",
+  days:[
+    // DEN A
+    {
+      label:"Hýždě & Nohy · 6 cviků · ~50 minut",
+      exercises:[
+        {ic:"🌉",name:"Glute Bridge",sets:"3 × 15",equip:["Vlastní tělo","Činka (volitelně)"],prog:"Základ před Hip Thrustem",
+         tip:`<strong>Jak na to:</strong> Lehni na záda, kolena pokrčená, chodidla na zemi na šíři boků. Zatlač paty do podlahy, zvedni boky – tělo tvoří přímku ramena–kolena. Stiskni hýždě nahoře a drž 2 sekundy.<br><br><strong>Proč začínáme tím:</strong> Glute Bridge tě naučí aktivovat hýžďový sval vědomě, než přejdeme na Hip Thrust s vahou.`,
+         yt:"https://www.youtube.com/results?search_query=glute+bridge+tutorial+proper+form"},
+        {ic:"🏋️",name:"Romanian Deadlift",sets:"3 × 12",equip:["Dvě lehké činky"],prog:"Lehká váha, důraz na formu",
+         tip:`<strong>Jak na to:</strong> Stůj rovně, činky před stehny. Pokrč mírně kolena a předkloň rovná záda – boky jdou dozadu jako bys chtěla zatlačit dveře za sebou. Činky klouzají podél nohou. Tah v zadní straně stehna? Správně. Zpět zasunutím boků dopředu.<br><br><strong>Chyba č. 1:</strong> kulatá záda. Záda musí být rovná celou dobu.`,
+         yt:"https://www.youtube.com/results?search_query=romanian+deadlift+dumbbell+form+beginners"},
+        {ic:"🥃",name:"Goblet Squat",sets:"3 × 12",equip:["Jedna činka (svisle u hrudi)"],prog:"Technika dřepu",
+         tip:`<strong>Jak na to:</strong> Drž činku vertikálně oběma rukama u hrudníku. Nohy na šíři ramen, špičky mírně ven. Dřep dolů – kolena sledují linii 2.–3. prstu, hrudník vzpřímený. Zad tlač paty a zvedni se.<br><br>Goblet squat je nejlepší cvik pro naučení správného dřepového vzorce.`,
+         yt:"https://www.youtube.com/results?search_query=goblet+squat+proper+form+tutorial"},
+        {ic:"🦵",name:"Bulharský dřep",sets:"3 × 10 / noha",equip:["Lavice","Bez závaží"],prog:"Začínáme bez závaží",
+         tip:`<strong>Jak na to:</strong> Zadní nohu polož nártem na lavici. Přední noha dostatečně vpřed. Jdi rovně dolů, přední koleno sleduje linii chodidla. Zatlač přes patu zpět nahoru.<br><br>Začni bez závaží – cvik je sám o sobě dost těžký. Pokud se třeseš, drž se stěny pro rovnováhu.`,
+         yt:"https://www.youtube.com/results?search_query=bulgarian+split+squat+beginners+tutorial"},
+        {ic:"🐴",name:"Donkey Kicks",sets:"3 × 15 / noha",equip:["Vlastní tělo"],prog:"Izolace hýždě",
+         tip:`<strong>Jak na to:</strong> Čtyři – zápěstí pod rameny, kolena pod boky. Jednu nohu kopni nahoru: chodidlo ke stropu, koleno pokrčené na 90°. Pánev drž rovně (nevytáčej do strany). Pohyb dělá pouze hýžďový sval – vědomě ho stiskni nahoře.<br><br>Pomalé a řízené = efektivnější než rychlé kopání.`,
+         yt:"https://www.youtube.com/results?search_query=donkey+kicks+glutes+proper+form"},
+        {ic:"⏱️",name:"Plank na předloktí",sets:"3 × 35 sekund",equip:["Vlastní tělo"],prog:"",
+         tip:`<strong>Jak na to:</strong> Předloktí a špičky. Tělo jako prkno – boky ani nahoru, ani dolů. Zatni břicho, hýždě a stehna. Dívej se 20 cm před sebe do podlahy.<br><br>Třes = normální. Kratší čas s perfektní formou > delší čas s prohnutím. Zvyšuj o 5 s každý týden.`,
+         yt:"https://www.youtube.com/results?search_query=forearm+plank+proper+form+tutorial"}
+      ]
+    },
+    // DEN B
+    {
+      label:"Ramena & Paže · 7 cviků · ~45 minut",
+      exercises:[
+        {ic:"🔺",name:"Pike Push-up",sets:"3 × 10",equip:["Vlastní tělo"],prog:"Základ stojky",
+         tip:`<strong>Jak na to:</strong> Obrácené V (downward dog). Pokrč lokty, sniž hlavu k podlaze mezi ruce. Lokty šikmo dozadu, ne do stran. Zatlač zpět do V.<br><br>Čím strmější V (vyšší zadek), tím více ramena. Toto je klíčový cvik pro přípravu na stojku.`,
+         yt:"https://www.youtube.com/results?search_query=pike+push+up+handstand+progression+tutorial"},
+        {ic:"💪",name:"Shoulder Press s činkami",sets:"3 × 12",equip:["Dvě lehčí činky"],prog:"Lehká váha, plný rozsah",
+         tip:`<strong>Jak na to:</strong> Sed nebo stoj. Činky u uší, lokty na 90°. Tiskni nahoru – paže téměř rovné, nezamykej lokty. Zpět k uším.<br><br>Záda rovná celou dobu. Pokud je nutné zaklonit trup, je váha příliš velká.`,
+         yt:"https://www.youtube.com/results?search_query=dumbbell+shoulder+press+proper+form+tutorial"},
+        {ic:"🕊️",name:"Lateral Raise",sets:"3 × 15",equip:["Velmi lehké činky"],prog:"Extrémně lehká váha",
+         tip:`<strong>Jak na to:</strong> Stoj, činky podél těla. Mírně pokrč lokty. Zvedni paže do stran do výše ramen – malíček o trochu výše než palec. Pomalu dolů (3 sekundy).<br><br>Pohyb dolů je stejně důležitý jako nahoru. Drž nejlehčí možnou váhu a soustřeď se na pocit v deltách.`,
+         yt:"https://www.youtube.com/results?search_query=lateral+raise+proper+form+side+delt"},
+        {ic:"🧗",name:"Dead Hang",sets:"3 × 25 sekund",equip:["Hrazda"],prog:"Základ pro shyby a stojku",
+         tip:`<strong>Jak na to:</strong> Nadhmát (dlaně od tebe). Vísí na propnutých pažích. Ramena aktivně stahuj od uší (ne pasivní visení).<br><br>Buduje sílu úchopu a mobilitu ramen. Bez tohoto základu se ke stojce ani neblížíme.`,
+         yt:"https://www.youtube.com/results?search_query=dead+hang+tutorial+grip+strength+benefits"},
+        {ic:"🔝",name:"Scapular Pull-up",sets:"3 × 10",equip:["Hrazda"],prog:"Základ pro shyb",
+         tip:`<strong>Jak na to:</strong> Vísí na rovných pažích. Bez ohybu loktů: stáhni lopatky dolů a k sobě – tělo se mírně zvedne. Pak uvolni. Ramena od uší po celou dobu.<br><br>Nejobtížnější je vědomě cítit lopatky. Pomalé provedení (2 s nahoru, 2 s dolů).`,
+         yt:"https://www.youtube.com/results?search_query=scapular+pull+ups+tutorial+form"},
+        {ic:"🤸",name:"Wall HS – kopání ke zdi",sets:"3 × 5 pokusů",equip:["Zeď"],prog:"Příprava stojky krok 1",
+         tip:`<strong>Jak na to:</strong> Ruce 15 cm od zdi. Odraz jednou nohou a kopni obě ke zdi. Ramena tlač od podlahy. Zatni břicho a hýždě. Není nutné zůstat nahoře – jde o nácvik odrazu a pozice ramen.<br><br>Pokud ještě nejde: dělej jen pike push-upy a dead hangy a vrať se za 2 týdny.`,
+         yt:"https://www.youtube.com/results?search_query=wall+handstand+kick+up+tutorial+beginners"},
+        {ic:"🪵",name:"Hollow Body Hold",sets:"3 × 15 sekund",equip:["Vlastní tělo"],prog:"Motorika stojky",
+         tip:`<strong>Jak na to:</strong> Záda, paže za hlavu, nohy rovně. Zvedni ramena a nohy od podlahy. Spodní záda přitisknutá k zemi. Brada k hrudníku.<br><br>Pokud záda vstávají: pokrč kolena nebo zdvihni nohy výše. Toto je základ motoriky stojky.`,
+         yt:"https://www.youtube.com/results?search_query=hollow+body+hold+tutorial+core+gymnastics"}
+      ]
+    },
+    // DEN C
+    {
+      label:"Kor & Celé tělo · 7 cviků · ~45 minut",
+      exercises:[
+        {ic:"🐛",name:"Dead Bug (pokrčené kolena)",sets:"3 × 6 / strana",equip:["Vlastní tělo"],prog:"Jednodušší varianta",
+         tip:`<strong>Jak na to:</strong> Záda. Paže ke stropu, kolena pokrčená nad boky na 90°. Spusť levou ruku za hlavu + pravou nohu dopředu (chodidlo k zemi) – zároveň, pomalu. Záda stále u podlahy. Vrať, opakuj na druhou stranu.<br><br>Pokud záda vstávají, pohybuj méně. Řízené provedení je vše.`,
+         yt:"https://www.youtube.com/results?search_query=dead+bug+exercise+core+tutorial"},
+        {ic:"🦵",name:"Leg Raises – pokrčené kolena",sets:"3 × 12",equip:["Vlastní tělo"],prog:"Postupné budování",
+         tip:`<strong>Jak na to:</strong> Záda, ruce pod hýžděmi. Kolena pokrčená, zvedni je k hrudi, pak pomalu dolů – chodidla se nedotknou podlahy.<br><br>Pokrčená kolena = jednodušší varianta. Záda musí zůstat u podlahy. V bloku 2 přejdeme na rovné nohy.`,
+         yt:"https://www.youtube.com/results?search_query=leg+raises+beginners+core+tutorial"},
+        {ic:"🌀",name:"Russian Twist – bez závaží",sets:"3 × 16 (8/strana)",equip:["Vlastní tělo"],prog:"Začínáme bez závaží",
+         tip:`<strong>Jak na to:</strong> Sed, nohy mírně zdvižené, trup nakloněný dozadu ~45°. Ruce sepnuté. Otáčej trupem zleva doprava – ruce jdou za pohybem. Pohyb je v trupu, ne jen v pažích.<br><br>Pokud je příliš těžké zdvihnout nohy, nech je mírně pokrčené na zemi.`,
+         yt:"https://www.youtube.com/results?search_query=russian+twist+proper+form+obliques"},
+        {ic:"💪",name:"Klik (Push-up)",sets:"3 × 8",equip:["Vlastní tělo"],prog:"Plný nebo modifikovaný",
+         tip:`<strong>Jak na to:</strong> Ruce na šíři ramen, tělo jako prkno. Lokty 45° od těla (ne do stran!). Hrudník k zemi, zpět nahoru.<br><br><strong>Úrovně:</strong> Kolena na zemi → Plný klik → Nohy na lavici. Zvol variantu, kde zvládneš 8 opakování s dobrou formou.`,
+         yt:"https://www.youtube.com/results?search_query=push+up+proper+form+progression+beginners"},
+        {ic:"🏋️",name:"Bent-over Row",sets:"3 × 12",equip:["Dvě lehké činky"],prog:"Záda a bicepsy",
+         tip:`<strong>Jak na to:</strong> Předkloň rovná záda na 45°. Táhni činky k bokům – lopatky k sobě a dolů, lokty těsně u těla. Pomalu dolů.<br><br>Záda rovná, hýždě a břicho zpevnit pro stabilitu. Nezakloň se při tahu.`,
+         yt:"https://www.youtube.com/results?search_query=dumbbell+bent+over+row+form+tutorial"},
+        {ic:"⛰️",name:"Mountain Climbers",sets:"3 × 20 sekund",equip:["Vlastní tělo"],prog:"Kondice + kor",
+         tip:`<strong>Jak na to:</strong> Pozice kliku. Střídavě přitahuj kolena k hrudníku – jako bys běžela. Boky drž rovně. Co nejrychleji ale bez ztráty formy těla.<br><br>Kombinuje kor, ramena a kardiovaskulární systém.`,
+         yt:"https://www.youtube.com/results?search_query=mountain+climbers+exercise+proper+form"},
+        {ic:"⏱️",name:"Plank – variace",sets:"3 × 35 sekund",equip:["Vlastní tělo"],prog:"Přidej výzvu: leg lift",
+         tip:`<strong>Jak na to:</strong> Klasický plank na předloktí. Pro větší výzvu: každých 10 sekund zvedni střídavě nohu 3–4 cm od podlahy a drž 2 sekundy.<br><br>Alternativně: side plank – 20 s / strana.`,
+         yt:"https://www.youtube.com/results?search_query=plank+variations+core+tutorial"}
+      ]
+    }
+  ]
+},
+
+// ══════════════════════════════════════════════════════════
+// BLOK 2 – BUDOVÁNÍ (Týdny 5–8)
+// ══════════════════════════════════════════════════════════
+{
+  name:"Blok 2 – Budování",weeks:"Týdny 5–8",
+  desc:"Cíl: Více sérií, těžší váhy, nové variace. Odpočinek 75 s. Zvyšuj váhu každý týden.",
+  days:[
+    // DEN A
+    {
+      label:"Hýždě & Nohy · 7 cviků · ~55 minut",
+      exercises:[
+        {ic:"🍑",name:"Hip Thrust",sets:"4 × 12",equip:["Lavice","Činka / kettlebell"],prog:"Hlavní cvik tohoto bloku!",
+         tip:`<strong>Jak na to:</strong> Záda na lavici (lopatky), chodidla na šíři boků. Činka na bocích (přes ručník nebo foam roller). Zatlač paty, zvedni boky do roviny ramena–kolena. Stiskni hýždě nahoře 1–2 sekundy.<br><br><strong>Váha:</strong> Začni s tím, co zvládneš s dobrou formou 12× – každý trénink přidej 2–2,5 kg.`,
+         yt:"https://www.youtube.com/results?search_query=hip+thrust+barbell+dumbbell+proper+form+tutorial"},
+        {ic:"🏋️",name:"Romanian Deadlift",sets:"4 × 10",equip:["Těžší dvě činky"],prog:"Přidej váhu oproti bloku 1",
+         tip:`<strong>Jak na to:</strong> Stejná technika jako v bloku 1, ale těžší váhy. Fokus: pomalá excentrická fáze (3 sekundy dolů). Cítíš natažení hamstringů? Správně.<br><br>Pokud se záda začínají kulatit, sniž váhu – technika vždy před egem.`,
+         yt:"https://www.youtube.com/results?search_query=romanian+deadlift+progressive+overload+form"},
+        {ic:"🥃",name:"Sumo Squat",sets:"3 × 12",equip:["Jedna těžší činka"],prog:"Nový cvik – vnitřní stehna",
+         tip:`<strong>Jak na to:</strong> Nohy širší než ramena, špičky ven na 45°. Drž jednu velkou činka svisle před tělem. Dřep dolů – kolena sledují linii špičky. Zatlač paty a stiskni hýždě nahoře.<br><br>Sumo dřep více zapojuje vnitřní stehna a hýždě než klasický dřep.`,
+         yt:"https://www.youtube.com/results?search_query=sumo+squat+dumbbell+proper+form+tutorial"},
+        {ic:"🦵",name:"Bulharský dřep s činkami",sets:"4 × 8 / noha",equip:["Lavice","Dvě lehčí činky"],prog:"Přidáváme závaží",
+         tip:`<strong>Jak na to:</strong> Stejná technika jako v bloku 1. Drž činky podél těla. Jdi dolů kontrolovaně (2 sekundy), silový výstup přes přední patu.<br><br>Pokud se třeseš nebo záda uhýbají, drž lehčí váhu. Postupný přírůstek každý týden.`,
+         yt:"https://www.youtube.com/results?search_query=bulgarian+split+squat+dumbbells+tutorial"},
+        {ic:"🦋",name:"Side-lying Hip Abduction",sets:"3 × 15 / strana",equip:["Vlastní tělo","Odporová guma"],prog:"Nový – boky a hýždě",
+         tip:`<strong>Jak na to:</strong> Lehni na bok, nohy rovné (nebo mírně pokrčené). Zvedni vrchní nohu ke stropu – ne vpřed ani vzad, ale rovně nahoru. Pomalu dolů.<br><br>S gumou okolo kolen/kotníků je výrazně těžší. Zaměř se na pocit v abduktorech (vnější hýžďový sval).`,
+         yt:"https://www.youtube.com/results?search_query=side+lying+hip+abduction+exercise+tutorial"},
+        {ic:"↔️",name:"Side Plank",sets:"3 × 20 sekund / strana",equip:["Vlastní tělo"],prog:"Nový – laterální kor",
+         tip:`<strong>Jak na to:</strong> Na předloktí a boční hraně chodidla. Tělo tvoří přímou linii – boky nezvedej ani neklesej. Volná ruka k nebi nebo na bok.<br><br>Pokud je příliš těžký: opři se o koleno (pokrčená spodní noha). Postupně přecházej na plnou verzi.`,
+         yt:"https://www.youtube.com/results?search_query=side+plank+proper+form+tutorial+obliques"},
+        {ic:"⏱️",name:"Plank na předloktí",sets:"3 × 45 sekund",equip:["Vlastní tělo"],prog:"Zvýšení délky",
+         tip:`Stejná technika jako v bloku 1. Cíl je 45 sekund s dokonalou formou. Pokud vydržíš déle, přidej leg lifts nebo arm lifts.`,
+         yt:"https://www.youtube.com/results?search_query=forearm+plank+45+seconds+challenge"}
+      ]
+    },
+    // DEN B
+    {
+      label:"Ramena & Paže · 7 cviků · ~50 minut",
+      exercises:[
+        {ic:"🔺",name:"Pike Push-up – nohy vyvýšené",sets:"3 × 8",equip:["Vlastní tělo","Lavice / stupeň"],prog:"Těžší varianta – více ramen",
+         tip:`<strong>Jak na to:</strong> Nohy na lavici, ruce na zemi – tělo tvoří ještě strmější V. Pohyb dolů a nahoru jako klasický pike push-up.<br><br>Čím výše jsou nohy, tím více to simuluje stojku. Pokud je příliš těžké, vrať se na klasický pike push-up.`,
+         yt:"https://www.youtube.com/results?search_query=pike+push+up+feet+elevated+tutorial"},
+        {ic:"💪",name:"Arnold Press",sets:"3 × 10",equip:["Dvě činky"],prog:"Nový – komplexní cvik ramen",
+         tip:`<strong>Jak na to:</strong> Začni s činkami před tváří, dlaně k tobě. Při tlačení nahoru otáčej předloktí tak, aby dlaně na vrcholu mířily od tebe. Zpět dolů s opačnou rotací.<br><br>Arnold Press zapojuje všechny tři hlavy deltoidů najednou. Pomalejší = lepší.`,
+         yt:"https://www.youtube.com/results?search_query=arnold+press+proper+form+dumbbell+tutorial"},
+        {ic:"🕊️",name:"Lateral Raise",sets:"4 × 12",equip:["Lehčí činky"],prog:"Série navíc, stejná váha",
+         tip:`Stejná technika jako v bloku 1. Přidali jsme 4. sérii. Zaměř se na pomalou spouštěcí fázi (3 sekundy dolů).<br><br>Odpočívej jen 60 s mezi sériemi – lateralky jsou izolační, nepotřebují tolik odpočinku.`,
+         yt:"https://www.youtube.com/results?search_query=lateral+raise+slow+eccentric+form"},
+        {ic:"🧗",name:"Dead Hang",sets:"3 × 35 sekund",equip:["Hrazda"],prog:"Delší než v bloku 1",
+         tip:`Stejná technika. Cíl: 35 sekund nepřetržitého visení. Ramena aktivně stahuj od uší.<br><br>Pokud je 35 s příliš, dělej dvě kratší série s malou pauzou.`,
+         yt:"https://www.youtube.com/results?search_query=dead+hang+progression+grip+strength"},
+        {ic:"🔝",name:"Negative Pull-up",sets:"3 × 5",equip:["Hrazda"],prog:"Nový – příprava na shyb",
+         tip:`<strong>Jak na to:</strong> Skoč nebo použij stoličku, aby ses dostala do vrchní pozice shybu (brada nad tyčí). Pak VELMI pomalu (4–6 sekund) spouštěj tělo dolů. Nahoře vždy začni znovu (neopakuj fázi nahoru).<br><br>Negative pull-ups jsou nejrychlejší cesta k prvnímu celému shybu.`,
+         yt:"https://www.youtube.com/results?search_query=negative+pull+ups+tutorial+beginners+first+pull+up"},
+        {ic:"🤸",name:"Wall Handstand Hold",sets:"3 × 25 sekund",equip:["Zeď"],prog:"Delší výdrž",
+         tip:`<strong>Jak na to:</strong> Ruce 10–15 cm od zdi, zády ke zdi. Tělo rovné – nezakláněj se do duhy. Ramena tlač od podlahy. Zatni břicho a hýždě. Dívej se dolů.<br><br>Zaměř se na alignment: uši, ramena, boky, kotníky v jedné linii.`,
+         yt:"https://www.youtube.com/results?search_query=wall+handstand+alignment+hold+tutorial"},
+        {ic:"🪵",name:"Hollow Body Hold",sets:"3 × 25 sekund",equip:["Vlastní tělo"],prog:"Delší výdrž",
+         tip:`Stejná technika, delší čas. Pokud záda vstávají, pokrč kolena. Záda MUSÍ být u podlahy.<br><br>Pokud 25 s zvládáš snadno, přidej arm/leg extension – paže i nohy co nejdál od těla (delší páka = těžší).`,
+         yt:"https://www.youtube.com/results?search_query=hollow+body+hold+progression+tutorial"}
+      ]
+    },
+    // DEN C
+    {
+      label:"Kor & Celé tělo · 7 cviků · ~50 minut",
+      exercises:[
+        {ic:"🐛",name:"Dead Bug – rovné nohy",sets:"3 × 8 / strana",equip:["Vlastní tělo"],prog:"Těžší varianta",
+         tip:`<strong>Jak na to:</strong> Paže ke stropu, nohy zvednuté – rovné (ne pokrčené jako v bloku 1). Spusť levou ruku + pravou nohu dolů – řízeně. Záda u podlahy vždy.<br><br>Rovné nohy = delší páka = mnohem těžší. Pokud záda vstávají, vrať se na pokrčené kolena.`,
+         yt:"https://www.youtube.com/results?search_query=dead+bug+straight+legs+advanced+tutorial"},
+        {ic:"🦵",name:"Leg Raises – rovné nohy",sets:"3 × 12",equip:["Vlastní tělo"],prog:"Těžší varianta",
+         tip:`<strong>Jak na to:</strong> Záda. Nohy rovné, zvedni do svislé polohy, pomalu spouštěj dolů – co nejblíže k podlaze bez dotyku. Záda stále u podlahy.<br><br>Pokud záda vstávají, spouštěj nohy jen do výše 30–45° a postupně zvyšuj rozsah.`,
+         yt:"https://www.youtube.com/results?search_query=straight+leg+raises+lower+abs+form"},
+        {ic:"🌀",name:"Russian Twist – s činkou",sets:"3 × 20 (10/strana)",equip:["Lehká činka"],prog:"Přidáváme závaží",
+         tip:`Stejná technika jako v bloku 1. Drž činku oběma rukama a dotýkej se jí podlahy střídavě vpravo a vlevo.<br><br>Pokud klesnout nohy na zem nestačí – výzva: nohy v úhlu 45° po celou dobu.`,
+         yt:"https://www.youtube.com/results?search_query=russian+twist+dumbbell+proper+form"},
+        {ic:"💪",name:"Push-up – plná varianta",sets:"3 × 10–12",equip:["Vlastní tělo"],prog:"Plný klik",
+         tip:`Cílem je plný klik (ne s koleny). Lokty 45° od těla. Hrudník se dotýká podlahy dole (nebo těsně nad ní). Vypni tělo jako prkno po celou dobu.<br><br>Pokud 10 opakování zvládáš snadno, přidej nohy na lavici pro větší náročnost.`,
+         yt:"https://www.youtube.com/results?search_query=push+up+chest+to+floor+proper+form"},
+        {ic:"🏋️",name:"Single-arm Dumbbell Row",sets:"3 × 10 / strana",equip:["Jedna činka","Lavice"],prog:"Nový – síla zad jednostranně",
+         tip:`<strong>Jak na to:</strong> Jedno koleno a ruka na lavici. Druhá noha na zemi, záda rovná. Táhni činka k boku – lopatka k páteři a dolů. Pomalu dolů.<br><br>Jednostranný row umožňuje použít těžší váhu a lépe izolovat jeden side zad.`,
+         yt:"https://www.youtube.com/results?search_query=single+arm+dumbbell+row+tutorial+proper+form"},
+        {ic:"⛰️",name:"Mountain Climbers",sets:"3 × 30 sekund",equip:["Vlastní tělo"],prog:"Delší než v bloku 1",
+         tip:`Stejná technika – přidáváme 10 sekund. Maximální rychlost při zachování rovných boků.<br><br>Variace: cross-body mountain climbers (koleno k opačnému loketnímu kloubu) pro rotační kor.`,
+         yt:"https://www.youtube.com/results?search_query=mountain+climbers+cross+body+variations"},
+        {ic:"👊",name:"Plank Shoulder Taps",sets:"3 × 20 (10/strana)",equip:["Vlastní tělo"],prog:"Nový – stabilita planku",
+         tip:`<strong>Jak na to:</strong> Pozice kliku (propnuté paže). Jednou rukou se dotkni opačného ramene. Boky drž co nejstabilněji – netlač je do stran. Čím pomalejší, tím těžší.<br><br>Pro větší výzvu: rozestav nohy méně do šířky.`,
+         yt:"https://www.youtube.com/results?search_query=plank+shoulder+taps+tutorial+core+stability"}
+      ]
+    }
+  ]
+},
+
+// ══════════════════════════════════════════════════════════
+// BLOK 3 – INTENZITA (Týdny 9–12)
+// ══════════════════════════════════════════════════════════
+{
+  name:"Blok 3 – Intenzita",weeks:"Týdny 9–12",
+  desc:"Cíl: Maximální výkon. Těžší váhy, pokročilé variace, finišery. Odpočinek 60–75 s.",
+  days:[
+    // DEN A
+    {
+      label:"Hýždě & Nohy · 7 cviků · ~60 minut",
+      exercises:[
+        {ic:"🍑",name:"Hip Thrust – těžký + finišer",sets:"4 × 10 těžce + 1 × 30 s vlastní tělo",equip:["Lavice","Těžká činka / barbell"],prog:"Maximum závaží + burnout",
+         tip:`<strong>Jak na to:</strong> 4 těžké série po 10 opakováních (75–80 % maxima). Po poslední sérii odlož závaží a ihned dělej Glute Bridge s vlastním tělem po dobu 30 sekund – to jsou hýžďové finišery.<br><br>Tato kombinace maximálně vyčerpá hýžďový sval. Je normální se třást.`,
+         yt:"https://www.youtube.com/results?search_query=hip+thrust+progressive+overload+heavy+form"},
+        {ic:"🏋️",name:"Single-leg RDL",sets:"3 × 8 / noha",equip:["Jedna činka"],prog:"Nový – jednostranný, rovnováha",
+         tip:`<strong>Jak na to:</strong> Stůj na jedné noze, mírně pokrčená. Činka v opačné ruce. Nakloň trup dopředu rovnými zády, volná noha jde dozadu jako protipól. Zpět nahoru.<br><br>Extrémně náročné na rovnováhu a jednostrannou sílu hamstringů. Začni s lehčí činka a přidávej.`,
+         yt:"https://www.youtube.com/results?search_query=single+leg+romanian+deadlift+tutorial+form"},
+        {ic:"🦵",name:"Bulharský dřep – těžký",sets:"4 × 8 / noha",equip:["Lavice","Těžší činky"],prog:"Maximum závaží tohoto cyklu",
+         tip:`Stejná technika jako v bloku 2, ale s maximem závaží, kde zvládneš 8 dobrých opakování. Pomalá excentrická fáze (3 sekundy dolů) – síla nahoru.<br><br>Toto je jeden z nejnáročnějších cviků celého plánu. Dej si čas na rozcvičení.`,
+         yt:"https://www.youtube.com/results?search_query=bulgarian+split+squat+heavy+progressive+overload"},
+        {ic:"🔄",name:"Reverse Lunge s činkami",sets:"3 × 10 / noha",equip:["Dvě činky"],prog:"Nový – lungy dozadu",
+         tip:`<strong>Jak na to:</strong> Stůj, činky podél těla. Udělej krok dozadu jednou nohou – přední koleno na 90°, zadní koleno těsně nad zemí. Přední chodidlo zůstává celou dobu na místě. Zatlač přes přední patu zpět do stoje.<br><br>Reverse lunge je šetrnější ke kolenům než dopředný a více zapojuje hýždě.`,
+         yt:"https://www.youtube.com/results?search_query=reverse+lunge+dumbbell+proper+form+tutorial"},
+        {ic:"🐸",name:"Frog Pump",sets:"3 × 20",equip:["Vlastní tělo","Závaží na bocích"],prog:"Nový – maximální izolace hýždě",
+         tip:`<strong>Jak na to:</strong> Záda. Chodidla dej k sobě (jako žába), kolena do stran. Zvedni boky jako u glute bridge. Malý rozsah pohybu, ale intenzivní pocit v hýždích.<br><br>Skvělý finišer po těžkém tréninku. Lze přidat závaží na boky pro větší odpor.`,
+         yt:"https://www.youtube.com/results?search_query=frog+pump+exercise+glutes+tutorial"},
+        {ic:"↔️",name:"Copenhagen Plank",sets:"3 × 15 sekund / strana",equip:["Lavice"],prog:"Nový – pokročilý laterální kor",
+         tip:`<strong>Jak na to:</strong> Bokem k lavici. Vrchní nohu polož kotníkem na okraj lavice. Zvedni boky – opři se o předloktí a kotník vrchní nohy. Tělo v rovné linii. Spodní noha volně visí nebo se mírně dotýká lavice.<br><br>Extrémně efektivní pro vnitřní stehna a laterální kor. Začni kratším časem a postupně přidávej.`,
+         yt:"https://www.youtube.com/results?search_query=copenhagen+plank+tutorial+adductor"},
+        {ic:"⏱️",name:"Plank circuit",sets:"3 kola",equip:["Vlastní tělo"],prog:"Plank circuit",
+         tip:`<strong>Circuit – 1 kolo = 3 cviky bez pauzy:</strong><br>1. Forearm plank 30 s<br>2. Side plank levá 15 s<br>3. Side plank pravá 15 s<br><br>Odpočívej 60 s mezi koly. Celkem 3 kola.`,
+         yt:"https://www.youtube.com/results?search_query=plank+circuit+variations+core+workout"}
+      ]
+    },
+    // DEN B
+    {
+      label:"Ramena & Paže · 7 cviků · ~50 minut",
+      exercises:[
+        {ic:"🔺",name:"Pike Push-up – pomalá excentrika",sets:"4 × 8",equip:["Vlastní tělo","Lavice"],prog:"4 sekundy dolů",
+         tip:`<strong>Jak na to:</strong> Pike push-up s nohami na lavici. Pomalá excentrická fáze: 4 sekundy dolů, 1 sekunda nahoru. Tato technika dramaticky zvyšuje náročnost bez přidání závaží.<br><br>Toto je nejbližší příprava na free-standing stojku při absenci strojů.`,
+         yt:"https://www.youtube.com/results?search_query=pike+push+up+slow+eccentric+advanced+tutorial"},
+        {ic:"💪",name:"Shoulder Press – těžší",sets:"4 × 8",equip:["Těžší dvě činky"],prog:"Maximum závaží tohoto cyklu",
+         tip:`Stejná technika jako v bloku 2. Cíl: 75–80 % maxima. Pokud záda začínají uhýbat, sniž váhu.<br><br>Dej si čas na rozcvičení – 2 přípravné série s lehčí váhou než přejdeš na pracovní váhu.`,
+         yt:"https://www.youtube.com/results?search_query=dumbbell+shoulder+press+heavy+progressive"},
+        {ic:"🕊️",name:"Lateral + Front Raise superset",sets:"3 × 12 + 12",equip:["Lehčí činky"],prog:"Nový – superset",
+         tip:`<strong>Superset bez pauzy:</strong> 12× Lateral Raise → ihned 12× Front Raise (paže rovně dopředu do výše ramen).<br><br>Superset vyčerpá všechny delty najednou. Použij nejlehčí možnou váhu – forma se musí zachovat v obou cvicích.`,
+         yt:"https://www.youtube.com/results?search_query=lateral+raise+front+raise+superset+shoulders"},
+        {ic:"🧗",name:"Dead Hang",sets:"4 × 40 sekund",equip:["Hrazda"],prog:"4 série, delší čas",
+         tip:`Maximum délky visení při aktivních ramenou (stažená od uší). Pokud 40 s nejde, dělej 2 kratší se 10s pauzou.<br><br>Po dokončení dead hangů přejdi okamžitě na Negative Pull-ups – ramena jsou již zahřátá.`,
+         yt:"https://www.youtube.com/results?search_query=dead+hang+40+seconds+grip+endurance"},
+        {ic:"🔝",name:"Negative Pull-up (4 s dolů)",sets:"4 × 5",equip:["Hrazda"],prog:"Pomalejší = těžší",
+         tip:`Stejná technika jako v bloku 2, ale ještě pomalejší spuštění – 4–6 sekund dolů. Každé opakování začínáš znovu ze stoličky nebo skoku.<br><br>Pokud po 12 týdnech tréninku zvládneš 1 celý shyb – gratuluji! To je realistický cíl.`,
+         yt:"https://www.youtube.com/results?search_query=negative+pull+ups+4+seconds+eccentric"},
+        {ic:"🤸",name:"Wall Handstand Hold",sets:"4 × 30 sekund",equip:["Zeď"],prog:"Delší výdrž, lepší alignment",
+         tip:`Po 8 týdnech tréninku by tato pozice měla být znatelně stabilnější. Fokus na dokonalý alignment: uši, ramena, boky, kotníky v jedné linii.<br><br>Pokus o "odlepení" od zdi na 1–2 sekundy pro freestanding stojku je v tomto bodě adekvátní výzva.`,
+         yt:"https://www.youtube.com/results?search_query=wall+handstand+freestanding+progression+tutorial"},
+        {ic:"🪨",name:"Hollow Rock",sets:"3 × 10",equip:["Vlastní tělo"],prog:"Nový – dynamická verze hollow body",
+         tip:`<strong>Jak na to:</strong> Začni v hollow body pozici (záda, paže za hlavu, nohy zvednuté). Houpej se tam a zpět jako houpačka – jen přes kontakt středu zad. Tvar těla se nesmí měnit.<br><br>Dynamická verze hollow body – náročnější koordinačně. Klíč je udržet "banánový" tvar po celou dobu.`,
+         yt:"https://www.youtube.com/results?search_query=hollow+rock+tutorial+gymnastics+core"}
+      ]
+    },
+    // DEN C
+    {
+      label:"Kor & Celé tělo · 7 cviků · ~50 minut",
+      exercises:[
+        {ic:"🐛",name:"Dead Bug – maximální rozsah",sets:"3 × 10 / strana",equip:["Vlastní tělo"],prog:"Plný rozsah + pomalý",
+         tip:`Plný rozsah: rovné paže za hlavu, rovné nohy skoro k zemi (ale záda stále u podlahy). Co nejpomalejší provedení.<br><br>Pokud po 12 týdnech ovládáš dead bug naplno – zkus variantu s malou činka v rukou pro extra odpor.`,
+         yt:"https://www.youtube.com/results?search_query=dead+bug+advanced+variations+core"},
+        {ic:"🦵",name:"Hanging Knee Raise",sets:"3 × 12",equip:["Hrazda"],prog:"Nový – visíš a cvičíš kor",
+         tip:`<strong>Jak na to:</strong> Vísí na hrazdě (nadhmát). Přitáhni pokrčená kolena k hrudi. Pomalu dolů. Záda nezakláněj dozadu – pohyb musí dělat břicho, ne setrvačnost.<br><br>Kombinuje dead hang s kor cvikem. Skvělý přípravný cvik pro leg raises ve visu.`,
+         yt:"https://www.youtube.com/results?search_query=hanging+knee+raise+tutorial+proper+form"},
+        {ic:"🌀",name:"Russian Twist – těžší činka",sets:"4 × 20 (10/strana)",equip:["Těžší činka"],prog:"Více sérií + těžší váha",
+         tip:`Stejná technika, těžší závaží a 4. série. Tempo: 1 sekunda na každou stranu – ne moc rychle, aktivuj šikmé svaly vědomě.<br><br>Pokud zvládáš snadno: přidej nohy do výše 45° (nohy nezůstávají na zemi).`,
+         yt:"https://www.youtube.com/results?search_query=russian+twist+heavy+dumbbell+advanced"},
+        {ic:"💥",name:"Push-up to T",sets:"3 × 8 / strana",equip:["Vlastní tělo"],prog:"Nový – rotační push-up",
+         tip:`<strong>Jak na to:</strong> Klik. Po výstupu nahoru otoč tělo na stranu – jedna ruka ke stropu, tělo tvoří T. Drž 1 sekundu. Zpět do planku, klik, druhá strana.<br><br>Extrémně komplexní cvik: hrudník, tricepsy, ramena, boky, rotační kor. Vše najednou.`,
+         yt:"https://www.youtube.com/results?search_query=push+up+to+t+rotation+tutorial"},
+        {ic:"🏋️",name:"Renegade Row",sets:"3 × 6 / strana",equip:["Dvě stejné činky"],prog:"Nový – nejtěžší varianta",
+         tip:`<strong>Jak na to:</strong> Plankový postoj s činkami v rukou (šestihranné lépe nesklouznou). Jednu činka táhni k boku jako row, zatímco druhá stabilizuje. Boky rovně – minimální rotace.<br><br>Jeden z nejtěžších cviků celého plánu – kombinuje plank stability s rowing silou.`,
+         yt:"https://www.youtube.com/results?search_query=renegade+row+proper+form+tutorial"},
+        {ic:"⚡",name:"Burpee",sets:"3 × 8",equip:["Vlastní tělo"],prog:"Nový – kondice + celé tělo",
+         tip:`<strong>Jak na to:</strong> Ze stoje – dřep, ruce na zem, nohy skokem dozadu (plank). Volitelně klik. Nohy skokem dopředu, výskok nahoru s rukama nad hlavu.<br><br>Pokud je příliš náročný, přeskip klik a místo skoku nahoru jen vzpřímeně stoupni.`,
+         yt:"https://www.youtube.com/results?search_query=burpee+proper+form+tutorial+modification"},
+        {ic:"🅻",name:"L-Sit Practice",sets:"3 × 10–15 sekund",equip:["Vlastní tělo","Hrazda / paralelky"],prog:"Nový – silový kor + komprese",
+         tip:`<strong>Jak na to:</strong> Sed na zemi. Ruce podél boků, dlaně na zemi. Zatlač do dlaní a zvedni hýždě + nohy od podlahy – nohy rovně dopředu (L-tvar).<br><br>Pokud nejde: nejdřív zvedej jen hýždě bez nohou. Pak přidej pokrčené kolena. Pak rovné nohy. Je to silový cvik – nepospíchej.`,
+         yt:"https://www.youtube.com/results?search_query=l+sit+tutorial+beginners+progression+tutorial"}
+      ]
+    }
+  ]
+}
+];
+
+// ─── STATE ────────────────────────────────────────────────
+let curBlock=0, curDay=0;
+
+// ─── TABS ─────────────────────────────────────────────────
+function goTab(t){
+  document.querySelectorAll('.tab').forEach(e=>e.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(e=>e.classList.remove('active'));
+  document.getElementById(t).classList.add('active');
+  ['plan','weight','diary'].forEach((id,i)=>{
+    if(id===t) document.querySelectorAll('nav button')[i].classList.add('active');
+  });
+  if(t==='weight') renderWeights();
+  if(t==='diary') renderDiary();
+}
+
+// ─── PLAN ─────────────────────────────────────────────────
+function goBlock(b){
+  curBlock=b;
+  document.querySelectorAll('.blk-tab').forEach((e,i)=>e.classList.toggle('active',i===b));
+  renderBanner();
+  renderExercises();
+}
+
+function goDay(d){
+  curDay=d;
+  document.querySelectorAll('.day-tab').forEach((e,i)=>e.classList.toggle('active',i===d));
+  renderExercises();
+}
+
+function renderBanner(){
+  const b=PLAN[curBlock];
+  document.getElementById('blk-banner').innerHTML=
+    `<span class="blk-badge">${b.weeks}</span>
+     <h3>${b.name}</h3>
+     <p>${b.desc}</p>`;
+}
+
+function renderExercises(){
+  const day=PLAN[curBlock].days[curDay];
+  const el=document.getElementById('exercises');
+  el.innerHTML=`<div class="section-lbl">${day.label}</div>`+
+    day.exercises.map((ex,i)=>`
+    <div class="card" id="ex-${i}">
+      <div class="card-head" onclick="toggleCard(${i})">
+        <div class="card-ic">${ex.ic}</div>
+        <div class="card-info">
+          <div class="card-name">${ex.name}</div>
+          <div class="card-meta">${ex.sets}</div>
+        </div>
+        <div class="card-arr">▾</div>
+      </div>
+      <div class="card-body">
+        <div class="div"></div>
+        <div class="tags">
+          ${ex.equip.map(e=>`<span class="tag">${e}</span>`).join('')}
+          ${ex.prog?`<span class="tag prog">📈 ${ex.prog}</span>`:''}
+        </div>
+        <div class="tip">${ex.tip}</div>
+        <a href="${ex.yt}" target="_blank" rel="noopener" class="yt-btn">
+          <svg width="15" height="11" viewBox="0 0 16 12" fill="none"><path d="M15.68.96A2 2 0 0 0 14.27.06C13.01 0 8 0 8 0S2.99 0 1.73.06A2 2 0 0 0 .32.96C-.01 2.22 0 4.8 0 6s-.01 3.78.32 5.04a2 2 0 0 0 1.41.9C2.99 12 8 12 8 12s5.01 0 6.27-.06a2 2 0 0 0 1.41-.9C16 9.78 16 7.2 16 6s.01-3.78-.32-5.04zM6.4 8.57V3.43L10.56 6 6.4 8.57z" fill="#fff"/></svg>
+          Ukázka provedení (YouTube)
+        </a>
+      </div>
+    </div>`).join('');
+}
+
+function toggleCard(i){
+  document.getElementById(`ex-${i}`).classList.toggle('open');
+}
+
+// ─── WEIGHT ───────────────────────────────────────────────
+function getW(){try{return JSON.parse(localStorage.getItem('fp_w')||'[]');}catch{return[];}}
+function setW(a){localStorage.setItem('fp_w',JSON.stringify(a));}
+
+function saveWeight(){
+  const d=document.getElementById('w-date').value;
+  const v=parseFloat(document.getElementById('w-val').value);
+  if(!d||isNaN(v)||v<30||v>250){alert('Zadej platné datum a váhu (30–250 kg).');return;}
+  const a=getW();
+  const idx=a.findIndex(x=>x.d===d);
+  if(idx>=0)a[idx].v=v;else a.push({d,v});
+  a.sort((a,b)=>a.d.localeCompare(b.d));
+  setW(a);
+  document.getElementById('w-val').value='';
+  renderWeights();
+}
+
+function delWeight(d){setW(getW().filter(x=>x.d!==d));renderWeights();}
+
+function renderWeights(){
+  const a=getW();
+  const list=document.getElementById('w-list');
+  if(!a.length){
+    document.getElementById('w-stats').style.display='none';
+    document.getElementById('w-chart').style.display='none';
+    list.innerHTML=`<div class="empty"><div class="big">⚖️</div><p>Zatím žádné záznamy.<br>Zadej svoji první váhu výše.</p></div>`;
+    return;
+  }
+  document.getElementById('w-stats').style.display='flex';
+  const lat=a[a.length-1].v, fst=a[0].v, diff=+(lat-fst).toFixed(1);
+  document.getElementById('w-cur').textContent=lat.toFixed(1);
+  const ce=document.getElementById('w-chg');
+  ce.textContent=(diff>=0?'+':'')+diff+' kg';
+  ce.style.color=diff<=0?'var(--green)':'var(--red)';
+  document.getElementById('w-cnt').textContent=a.length;
+  if(a.length>=2){document.getElementById('w-chart').style.display='block';drawSpark(a);}
+  else document.getElementById('w-chart').style.display='none';
+  const rev=[...a].reverse();
+  list.innerHTML=rev.map((item,ri)=>{
+    const prev=a[a.length-1-ri-1];
+    const ds=new Date(item.d+'T12:00:00').toLocaleDateString('cs-CZ',{day:'numeric',month:'long',year:'numeric'});
+    let dh='';
+    if(prev){const dv=+(item.v-prev.v).toFixed(1);dh=`<div class="diff ${dv<=0?'neg':'pos'}">${dv>=0?'+':''}${dv} kg</div>`;}
+    return`<div class="list-item"><div class="wval">${item.v.toFixed(1)} kg</div><div class="winfo"><div class="wdate">${ds}</div>${dh}</div><button class="btn-ghost" onclick="delWeight('${item.d}')">🗑️</button></div>`;
+  }).join('');
+}
+
+function drawSpark(a){
+  const v=a.map(x=>x.v),mn=Math.min(...v),mx=Math.max(...v),rng=mx-mn||1;
+  const W=300,H=76,P=10;
+  const pts=v.map((val,i)=>`${(P+(i/(v.length-1))*(W-P*2)).toFixed(1)},${(P+(1-(val-mn)/rng)*(H-P*2)).toFixed(1)}`).join(' ');
+  const dots=v.map((val,i)=>{const x=(P+(i/(v.length-1))*(W-P*2)).toFixed(1),y=(P+(1-(val-mn)/rng)*(H-P*2)).toFixed(1);return`<circle cx="${x}" cy="${y}" r="3.5" fill="#b5005b"/>`;}).join('');
+  document.getElementById('spark').innerHTML=`<polyline points="${pts}" fill="none" stroke="#b5005b" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>${dots}`;
+}
+
+// ─── DIARY ────────────────────────────────────────────────
+function getD(){try{return JSON.parse(localStorage.getItem('fp_d')||'[]');}catch{return[];}}
+
+function saveDiary(){
+  const d=document.getElementById('d-date').value;
+  const day=document.getElementById('d-day').value;
+  const note=document.getElementById('d-note').value.trim();
+  if(!d){alert('Vyber datum.');return;}
+  const a=getD();
+  a.push({d,day,note,ts:Date.now()});
+  a.sort((a,b)=>b.d.localeCompare(a.d));
+  localStorage.setItem('fp_d',JSON.stringify(a));
+  document.getElementById('d-note').value='';
+  renderDiary();
+}
+
+function delDiary(ts){localStorage.setItem('fp_d',JSON.stringify(getD().filter(x=>x.ts!==ts)));renderDiary();}
+
+function renderDiary(){
+  const a=getD();
+  const el=document.getElementById('d-list');
+  if(!a.length){el.innerHTML=`<div class="empty"><div class="big">📓</div><p>Zatím žádné záznamy.<br>Zapisuj každý odtrénovaný den!</p></div>`;return;}
+  const bcls={'1A':'ba','1B':'bb','1C':'bc','2A':'ba','2B':'bb','2C':'bc','3A':'ba','3B':'bb','3C':'bc'};
+  el.innerHTML=a.map(item=>{
+    const ds=new Date(item.d+'T12:00:00').toLocaleDateString('cs-CZ',{weekday:'long',day:'numeric',month:'long'});
+    return`<div class="diary-item"><div class="diary-head"><div><span class="badge ${bcls[item.day]||'ba'}">${item.day}</span><div class="diary-day">${item.day}</div><div class="diary-date">${ds}</div></div><button class="btn-ghost" onclick="delDiary(${item.ts})">🗑️</button></div>${item.note?`<div class="diary-note">${item.note.replace(/\n/g,'<br>')}</div>`:''}</div>`;
+  }).join('');
+}
+
+// ─── INIT ─────────────────────────────────────────────────
+(function(){
+  const t=new Date().toISOString().split('T')[0];
+  document.getElementById('w-date').value=t;
+  document.getElementById('d-date').value=t;
+  renderBanner();
+  renderExercises();
+})();
+</script>
+</body>
+</html>
